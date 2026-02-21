@@ -3,20 +3,25 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* Brand Colors */
+  --navy: #0B224D;
+  --orange: #F55C15;
+  --soft-grey: #B5BFC1;
+  --light-grey: #E0DDDC;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+
+  --color-navy: var(--navy);
+  --color-orange: var(--orange);
+  --color-soft-grey: var(--soft-grey);
+  --color-light-grey: var(--light-grey);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
