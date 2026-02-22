@@ -2,6 +2,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import Navbar from "./components/Navbar";
 
 // Local Font: Grandview
 const grandview = localFont({
@@ -18,7 +19,7 @@ const grandview = localFont({
 
 // Metadata + Favicons
 export const metadata: Metadata = {
-  title: "Rapid Vets | Veterinary Care",
+  title: "Home - Rapid Vets",
   description: "Rapid Vets – fast, modern veterinary services.",
   icons: {
     icon: [
@@ -47,9 +48,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${grandview.variable} antialiased bg-slate-950 text-white`}
+        className={`${grandview.variable} font-sans antialiased bg-slate-950 text-white`}
       >
-        {children}
+        <Navbar />
+        <main className="pt-16">{children}</main>
       </body>
     </html>
   );

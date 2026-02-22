@@ -9,6 +9,12 @@
   --orange: #F55C15;
   --soft-grey: #B5BFC1;
   --light-grey: #E0DDDC;
+
+  /* Semantic Color Roles */
+  --primary: #F55C15;
+  --secondary: #0B224D;
+  --tertiary: #B5BFC1;
+  --quaternary: #E0DDDC;
 }
 
 @theme inline {
@@ -20,6 +26,11 @@
   --color-soft-grey: var(--soft-grey);
   --color-light-grey: var(--light-grey);
 
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-tertiary: var(--tertiary);
+  --color-quaternary: var(--quaternary);
+
   --font-sans: var(--font-grandview);
   --font-mono: var(--font-grandview);
 }
@@ -27,5 +38,4 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
 }

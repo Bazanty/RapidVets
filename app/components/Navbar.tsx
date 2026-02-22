@@ -1,128 +1,243 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import Image from "next/image";
 import Link from "next/link";
 
-const navLinks = [
-  { href: "#home", label: "Home" },
-  { href: "#services", label: "Services" },
-  { href: "#vets", label: "Our Vets" },
-  { href: "#pricing", label: "Pricing" },
-  { href: "#contact", label: "Contact" },
+
+type NavItem =
+  | { label: string; href: string; children?: never }
+  | { label: string; href?: never; children: { label: string; href: string }[] };
+
+const navItems: NavItem[] = [
+  { label: "Home", href: "/" },
+  {
+    label: "Inspections",
+    children: [
+      { label: "Clinical Inspection", href: "/services/clinical-inspection" },
+      { label: "Emergency Inspection", href: "/services/emergency-inspection" },
+      { label: "Surgery", href: "/services/surgery" },
+      { label: "Dental Care", href: "/services/dental" },
+    ],
+  },
+  { label: "Blog", href: "/blog" },
+  {
+    label: "Company",
+    children: [
+      { label: "About Us", href: "/about" },
+      { label: "Our Vets", href: "/vets" },
+      { label: "Careers", href: "/careers" },
+    ],
+  },
+  { label: "Contacts", href: "/contact" },
+  { label: "Book A Private Valuation", href: "/book" },
 ];
 
-export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
+
+function DropdownLink({ item }: { item: NavItem }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLLIElement>(null);
+
+  /* Close when clicking outside */
+  useEffect(() => {
+    function handle(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handle);
+    return () => document.removeEventListener("mousedown", handle);
+  }, []);
+
+  if (!item.children) {
+    return (
+      <li>
+        <Link
+          href={item.href}
+          className="text-sm font-semibold text-secondary hover:text-primary transition-colors"
+        >
+          {item.label}
+        </Link>
+      </li>
+    );
+  }
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 bg-navy/95 text-white backdrop-blur-md shadow-md">
-      <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 lg:px-6">
-        {/* Logo */}
-        <Link
-          href="#home"
-          className="flex items-center gap-2"
-          onClick={() => setIsOpen(false)}
+    <li ref={ref} className="relative">
+      <button
+        onClick={() => setOpen((p) => !p)}
+        className="flex items-center gap-1 text-sm font-semibold text-secondary hover:text-primary transition-colors"
+      >
+        {item.label}
+        <svg
+          className={`h-3 w-3 transition-transform ${open ? "rotate-180" : ""}`}
+          viewBox="0 0 20 20"
+          fill="currentColor"
         >
-          {/* Simple logo mark (you can replace with an <Image /> later) */}
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-orange">
-            <span className="text-sm font-bold leading-none">RV</span>
-          </div>
-          <div className="flex flex-col leading-tight">
-            <span className="text-lg font-bold tracking-tight">Rapid Vets</span>
-            <span className="text-xs text-soft-grey">
-              24/7 Veterinary Care
-            </span>
-          </div>
+          <path
+            fillRule="evenodd"
+            d="M5.23 7.21a.75.75 0 011.06.02L10 11.17l3.71-3.94a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0L5.21 8.27a.75.75 0 01.02-1.06z"
+            clipRule="evenodd"
+          />
+        </svg>
+      </button>
+
+      {open && (
+        <ul className="absolute left-0 top-full mt-2 min-w-[180px] rounded-lg border border-tertiary/40 bg-white py-1.5 shadow-lg z-50">
+          {item.children.map((child) => (
+            <li key={child.href}>
+              <Link
+                href={child.href}
+                onClick={() => setOpen(false)}
+                className="block px-4 py-2 text-sm text-secondary hover:bg-tertiary/20 hover:text-primary transition-colors"
+              >
+                {child.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
+    </li>
+  );
+}
+
+/* ─── Navbar ────────────────────────────────────────────── */
+export default function Navbar() {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
+
+  return (
+    <header className="fixed inset-x-0 top-0 z-50 bg-white shadow-sm">
+      <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2.5 lg:px-8">
+
+        {/* Logo */}
+        <Link href="/" className="flex items-center shrink-0">
+          <Image
+            src="/logo/logo.png"
+            alt="RapidVets logo"
+            width={289}
+            height={98}
+            priority
+            className="h-14 w-auto object-contain"
+          />
         </Link>
 
-        {/* Desktop nav */}
-        <div className="hidden items-center gap-8 lg:flex">
-          <ul className="flex items-center gap-6 text-sm font-medium">
-            {navLinks.map((link) => (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className="relative transition-colors hover:text-orange"
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
+        {/* Desktop nav links */}
+        <ul className="hidden items-center gap-7 lg:flex">
+          {navItems.map((item) => (
+            <DropdownLink key={item.label} item={item} />
+          ))}
+        </ul>
 
-          {/* CTA buttons */}
-          <div className="flex items-center gap-3">
-            <span className="hidden rounded-full bg-orange/10 px-3 py-1 text-xs font-semibold text-orange lg:inline">
-              24/7 Emergency
-            </span>
-            <Link
-              href="#booking"
-              className="rounded-full bg-orange px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-white hover:text-navy"
-            >
-              Book Appointment
-            </Link>
-          </div>
+        {/* Desktop CTAs */}
+        <div className="hidden items-center gap-2 lg:flex">
+          <Link
+            href="/get-started"
+            className="rounded-md bg-secondary px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-secondary/85"
+          >
+            Get Started
+          </Link>
+          <Link
+            href="/sign-in"
+            className="rounded-md bg-primary px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-primary/85"
+          >
+            Sign In
+          </Link>
         </div>
 
-        {/* Mobile menu button */}
+        {/* Mobile hamburger */}
         <button
           type="button"
-          className="inline-flex items-center justify-center rounded-md p-2 text-soft-grey hover:text-orange lg:hidden"
-          onClick={() => setIsOpen((prev) => !prev)}
-          aria-label="Toggle navigation menu"
+          aria-label="Toggle menu"
+          onClick={() => setMobileOpen((p) => !p)}
+          className="inline-flex items-center justify-center rounded-md p-2 text-secondary hover:text-primary lg:hidden"
         >
-          {/* Icon: hamburger / close */}
-          <svg
-            className={`h-6 w-6 ${isOpen ? "hidden" : "block"}`}
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path strokeLinecap="round" strokeWidth={1.8} d="M4 7h16M4 12h16M4 17h16" />
-          </svg>
-          <svg
-            className={`h-6 w-6 ${isOpen ? "block" : "hidden"}`}
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path strokeLinecap="round" strokeWidth={1.8} d="M6 18L18 6M6 6l12 12" />
-          </svg>
+          {mobileOpen ? (
+            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          ) : (
+            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeWidth={2} d="M4 7h16M4 12h16M4 17h16" />
+            </svg>
+          )}
         </button>
       </nav>
 
-      {/* Mobile dropdown menu */}
-      {isOpen && (
-        <div className="border-t border-soft-grey/40 bg-navy/98 lg:hidden">
-          <div className="mx-auto max-w-6xl px-4 py-3">
-            <ul className="flex flex-col gap-1 text-sm font-medium">
-              {navLinks.map((link) => (
-                <li key={link.href}>
+      {/* Mobile drawer */}
+      {mobileOpen && (
+        <div className="border-t border-tertiary/40 bg-white lg:hidden">
+          <div className="mx-auto max-w-7xl px-4 py-3 space-y-1">
+            {navItems.map((item) => {
+              if (!item.children) {
+                return (
                   <Link
-                    href={link.href}
-                    className="block rounded-md px-3 py-2 text-soft-grey hover:bg-orange hover:text-white"
-                    onClick={() => setIsOpen(false)}
+                    key={item.label}
+                    href={item.href}
+                    onClick={() => setMobileOpen(false)}
+                    className="block rounded-md px-3 py-2 text-sm font-semibold text-secondary hover:bg-tertiary/20 hover:text-primary"
                   >
-                    {link.label}
+                    {item.label}
                   </Link>
-                </li>
-              ))}
-            </ul>
+                );
+              }
 
-            <div className="mt-3 flex flex-col gap-2">
-              <span className="inline-flex w-fit items-center gap-2 rounded-full bg-orange/10 px-3 py-1 text-xs font-semibold text-orange">
-                <span className="h-2 w-2 rounded-full bg-orange animate-pulse" />
-                24/7 Emergency
-              </span>
+              const expanded = mobileExpanded === item.label;
+              return (
+                <div key={item.label}>
+                  <button
+                    onClick={() =>
+                      setMobileExpanded(expanded ? null : item.label)
+                    }
+                    className="flex w-full items-center justify-between rounded-md px-3 py-2 text-sm font-semibold text-secondary hover:bg-tertiary/20 hover:text-primary"
+                  >
+                    {item.label}
+                    <svg
+                      className={`h-4 w-4 transition-transform ${expanded ? "rotate-180" : ""}`}
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M5.23 7.21a.75.75 0 011.06.02L10 11.17l3.71-3.94a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0L5.21 8.27a.75.75 0 01.02-1.06z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </button>
 
+                  {expanded && (
+                    <div className="ml-4 mt-0.5 border-l-2 border-tertiary/40 pl-3 space-y-0.5">
+                      {item.children.map((child) => (
+                        <Link
+                          key={child.href}
+                          href={child.href}
+                          onClick={() => setMobileOpen(false)}
+                          className="block rounded-md px-3 py-1.5 text-sm text-secondary/80 hover:text-primary"
+                        >
+                          {child.label}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+
+            {/* Mobile CTAs */}
+            <div className="flex gap-2 pt-2">
               <Link
-                href="#booking"
-                className="mt-1 block rounded-full bg-orange px-4 py-2 text-center text-sm font-semibold text-white shadow-sm transition hover:bg-white hover:text-navy"
-                onClick={() => setIsOpen(false)}
+                href="/get-started"
+                onClick={() => setMobileOpen(false)}
+                className="flex-1 rounded-md bg-secondary py-2 text-center text-sm font-semibold text-white transition hover:bg-secondary/85"
               >
-                Book Appointment
+                Get Started
+              </Link>
+              <Link
+                href="/sign-in"
+                onClick={() => setMobileOpen(false)}
+                className="flex-1 rounded-md bg-primary py-2 text-center text-sm font-semibold text-white transition hover:bg-primary/85"
+              >
+                Sign In
               </Link>
             </div>
           </div>
