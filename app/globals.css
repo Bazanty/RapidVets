@@ -20,8 +20,8 @@
   --color-soft-grey: var(--soft-grey);
   --color-light-grey: var(--light-grey);
 
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-grandview);
+  --font-mono: var(--font-grandview);
 }
 
 body {
