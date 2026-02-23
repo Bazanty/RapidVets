@@ -7,7 +7,7 @@ export default function Hero() {
             {/* Background Image */}
             <div className="absolute inset-0 z-0">
                 <Image
-                    src="/home/vet2.png"
+                    src="/home/vet.jpeg"
                     alt="Hero Background"
                     fill
                     priority
@@ -20,12 +20,12 @@ export default function Hero() {
             {/* Content */}
             <div className="relative z-10 w-full mx-auto max-w-7xl px-4 lg:px-8 pt-8">
                 <div className="max-w-2xl text-white">
-                    <h1 className="text-5xl font-bold leading-[1.1] md:text-6xl lg:text-7xl">
-                        On-Demand livestock<br />Inspection Platform
+                    <h1 className="text-4xl font-semibold leading-[1.1] md:text-5xl lg:text-6xl">
+                        On-Demand animal<br />Inspection Platform
                     </h1>
                     <p className="mt-6 text-lg md:text-xl text-gray-200 leading-relaxed max-w-xl">
-                        Rapid Vets is an On-Demand livestock Inspection Platform that sends its
-                        closest available roaming Vets to inspect and assess livestock.
+                        Rapid Vets is an On-Demand animal Inspection Platform that sends its
+                        closest available roaming Vets to inspect and assess animals.
                     </p>
                     <div className="mt-10 flex flex-wrap items-center gap-8">
                         <Link

@@ -16,8 +16,9 @@ const navItems: NavItem[] = [
     children: [
       { label: "Clinical Inspection", href: "/services/clinical-inspection" },
       { label: "Emergency Inspection", href: "/services/emergency-inspection" },
-      { label: "Surgery", href: "/services/surgery" },
-      { label: "Dental Care", href: "/services/dental" },
+      { label: "Herd Health Inspection", href: "/services/herd-inspection" },
+      { label: "Livestock Valuation Inspection", href: "/services/livestock-valuation" },
+      { label: "Livestock Postmortem Inspection", href: "/services/clinical-inspection" },
     ],
   },
   { label: "Blog", href: "/blog" },
