@@ -1,7 +1,6 @@
 // app/layout.tsx
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import localFont from "next/font/local";
 import "./globals.css";
 
 // Google Fonts
@@ -13,19 +12,6 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
-});
-
-// Local Font: Grandview
-const grandview = localFont({
-  src: [
-    { path: "./fonts/GrandviewLight.ttf", weight: "300", style: "normal" },
-    { path: "./fonts/GrandviewLightItalic.ttf", weight: "300", style: "italic" },
-    { path: "./fonts/Grandview.ttf", weight: "400", style: "normal" },
-    { path: "./fonts/GrandviewItalic.ttf", weight: "400", style: "italic" },
-    { path: "./fonts/GrandviewBold.ttf", weight: "700", style: "normal" },
-    { path: "./fonts/GrandviewBoldItalic.ttf", weight: "700", style: "italic" },
-  ],
-  variable: "--font-grandview",
 });
 
 // Metadata + Favicons
@@ -59,9 +45,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${grandview.variable} antialiased bg-slate-950 text-white`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-slate-950 text-white`}
       >
-        {children}
+        <main className="pt-20">
+          {children}
+        </main>
       </body>
     </html>
   );

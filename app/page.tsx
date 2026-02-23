@@ -1,7 +1,10 @@
 import React from 'react'
+import HeroSection from './components/HeoSection'
 
 export default function page() {
   return (
-    <div>page</div>
+    <div>
+      <HeroSection/>
+    </div>
   )
 }
