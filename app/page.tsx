@@ -1,10 +1,12 @@
 import React from 'react'
-import HeroSection from './components/HeoSection'
+import Hero from './components/Hero'
+import RoleSelector from './components/RoleSelector'
 
-export default function page() {
+export default function Home() {
   return (
     <div>
-      <HeroSection/>
+    <Hero />
+    <RoleSelector />
     </div>
   )
 }

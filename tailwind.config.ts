@@ -9,8 +9,8 @@ const config: Config = {
     extend: {
       fontFamily: {
         grandview: ["var(--font-grandview)"],
-        sans: ["var(--font-geist-sans)"],
-        mono: ["var(--font-geist-mono)"],
+        sans: ["var(--font-grandview)"],
+        mono: ["var(--font-grandview)"],
       },
     },
   },
