@@ -4,7 +4,6 @@ import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-
 type NavItem =
   | { label: string; href: string; children?: never }
   | { label: string; href?: never; children: { label: string; href: string }[] };
@@ -34,12 +33,10 @@ const navItems: NavItem[] = [
   { label: "Book A Private Valuation", href: "/book" },
 ];
 
-
 function DropdownLink({ item }: { item: NavItem }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLLIElement>(null);
 
-  /* Close when clicking outside */
   useEffect(() => {
     function handle(e: MouseEvent) {
       if (ref.current && !ref.current.contains(e.target as Node)) {
@@ -102,15 +99,33 @@ function DropdownLink({ item }: { item: NavItem }) {
   );
 }
 
-/* ─── Navbar ────────────────────────────────────────────── */
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
+  const [scrolled, setScrolled] = useState(false);
+
+  // Track scroll position
+  useEffect(() => {
+    const handleScroll = () => {
+      const offset = window.scrollY;
+      // Add background after scrolling 10px
+      setScrolled(offset > 10);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    // Set initial state based on current scroll position
+    handleScroll();
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 bg-white shadow-sm">
+    <header
+      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-200 ${
+        scrolled ? "bg-white shadow-sm" : "bg-transparent"
+      }`}
+    >
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2.5 lg:px-8">
-
         {/* Logo */}
         <Link href="/" className="flex items-center shrink-0">
           <Image
