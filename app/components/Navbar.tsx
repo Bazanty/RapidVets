@@ -3,6 +3,14 @@
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import {
+  Home,
+  ClipboardCheck,
+  FileText,
+  Building2,
+  Phone,
+  CalendarDays,
+} from "lucide-react";
 
 type NavItem =
   | { label: string; href: string; children?: never }
@@ -33,6 +41,26 @@ const navItems: NavItem[] = [
   { label: "Book A Private Valuation", href: "/book" },
 ];
 
+/* ✅ ICON MAPPING (Added Only) */
+function getIcon(label: string) {
+  switch (label) {
+    case "Home":
+      return <Home size={16} />;
+    case "Inspections":
+      return <ClipboardCheck size={16} />;
+    case "Blog":
+      return <FileText size={16} />;
+    case "Company":
+      return <Building2 size={16} />;
+    case "Contacts":
+      return <Phone size={16} />;
+    case "Book A Private Valuation":
+      return <CalendarDays size={16} />;
+    default:
+      return null;
+  }
+}
+
 function DropdownLink({ item }: { item: NavItem }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLLIElement>(null);
@@ -54,7 +82,10 @@ function DropdownLink({ item }: { item: NavItem }) {
           href={item.href}
           className="text-sm font-semibold text-secondary hover:text-primary transition-colors"
         >
-          {item.label}
+          <span className="inline-flex items-center gap-2">
+            {getIcon(item.label)}
+            {item.label}
+          </span>
         </Link>
       </li>
     );
@@ -66,7 +97,10 @@ function DropdownLink({ item }: { item: NavItem }) {
         onClick={() => setOpen((p) => !p)}
         className="flex items-center gap-1 text-sm font-semibold text-secondary hover:text-primary transition-colors"
       >
-        {item.label}
+        <span className="inline-flex items-center gap-2">
+          {getIcon(item.label)}
+          {item.label}
+        </span>
         <svg
           className={`h-3 w-3 transition-transform ${open ? "rotate-180" : ""}`}
           viewBox="0 0 20 20"
@@ -104,16 +138,13 @@ export default function Navbar() {
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
 
-  // Track scroll position
   useEffect(() => {
     const handleScroll = () => {
       const offset = window.scrollY;
-      // Add background after scrolling 10px
       setScrolled(offset > 10);
     };
 
     window.addEventListener("scroll", handleScroll);
-    // Set initial state based on current scroll position
     handleScroll();
 
     return () => window.removeEventListener("scroll", handleScroll);
@@ -126,7 +157,6 @@ export default function Navbar() {
       }`}
     >
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2.5 lg:px-8">
-        {/* Logo */}
         <Link href="/" className="flex items-center shrink-0">
           <Image
             src="/logo/logo.png"
@@ -138,14 +168,12 @@ export default function Navbar() {
           />
         </Link>
 
-        {/* Desktop nav links */}
         <ul className="hidden items-center gap-7 lg:flex">
           {navItems.map((item) => (
             <DropdownLink key={item.label} item={item} />
           ))}
         </ul>
 
-        {/* Desktop CTAs */}
         <div className="hidden items-center gap-2 lg:flex">
           <Link
             href="/get-started"
@@ -161,7 +189,6 @@ export default function Navbar() {
           </Link>
         </div>
 
-        {/* Mobile hamburger */}
         <button
           type="button"
           aria-label="Toggle menu"
@@ -180,7 +207,6 @@ export default function Navbar() {
         </button>
       </nav>
 
-      {/* Mobile drawer */}
       {mobileOpen && (
         <div className="border-t border-tertiary/40 bg-white lg:hidden">
           <div className="mx-auto max-w-7xl px-4 py-3 space-y-1">
@@ -193,7 +219,10 @@ export default function Navbar() {
                     onClick={() => setMobileOpen(false)}
                     className="block rounded-md px-3 py-2 text-sm font-semibold text-secondary hover:bg-tertiary/20 hover:text-primary"
                   >
-                    {item.label}
+                    <span className="inline-flex items-center gap-2">
+                      {getIcon(item.label)}
+                      {item.label}
+                    </span>
                   </Link>
                 );
               }
@@ -207,7 +236,10 @@ export default function Navbar() {
                     }
                     className="flex w-full items-center justify-between rounded-md px-3 py-2 text-sm font-semibold text-secondary hover:bg-tertiary/20 hover:text-primary"
                   >
-                    {item.label}
+                    <span className="inline-flex items-center gap-2">
+                      {getIcon(item.label)}
+                      {item.label}
+                    </span>
                     <svg
                       className={`h-4 w-4 transition-transform ${expanded ? "rotate-180" : ""}`}
                       viewBox="0 0 20 20"
@@ -239,7 +271,6 @@ export default function Navbar() {
               );
             })}
 
-            {/* Mobile CTAs */}
             <div className="flex gap-2 pt-2">
               <Link
                 href="/get-started"
