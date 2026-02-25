@@ -25,22 +25,22 @@ export const services: Service[] = [
         audience: "Farm owners, livestock managers, and agribusinesses.",
         steps: [
             {
-                icon: "🩺",
+                icon: "stethoscope",
                 heading: "Physical Assessment",
                 detail: "Vital signs, body condition scoring, and hands-on examination of all major body systems.",
             },
             {
-                icon: "🔬",
+                icon: "microscope",
                 heading: "Sample Collection",
                 detail: "Blood, urine, and faecal samples collected where indicated for lab analysis.",
             },
             {
-                icon: "💊",
+                icon: "pill",
                 heading: "Treatment & Prescription",
                 detail: "On-the-spot treatment administered; follow-up prescriptions issued where required.",
             },
             {
-                icon: "📋",
+                icon: "clipboard",
                 heading: "Digital Report",
                 detail: "Full clinical report delivered securely to your account within 24 hours.",
             },
@@ -62,22 +62,22 @@ export const services: Service[] = [
         audience: "Banks, insurers, farmers, and legal professionals.",
         steps: [
             {
-                icon: "📸",
+                icon: "camera",
                 heading: "Animal Identification",
                 detail: "Tagging, marking, and photographic documentation of each animal.",
             },
             {
-                icon: "⚖️",
+                icon: "scale",
                 heading: "Condition Scoring",
                 detail: "Body weight estimation, age assessment, and breed classification.",
             },
             {
-                icon: "📊",
+                icon: "chart-bar",
                 heading: "Market Benchmarking",
                 detail: "Current market data used to derive accurate valuations per species and category.",
             },
             {
-                icon: "📄",
+                icon: "document",
                 heading: "Valuation Certificate",
                 detail: "Professionally signed and stamped valuation report suitable for financial institutions.",
             },
@@ -99,22 +99,22 @@ export const services: Service[] = [
         audience: "Livestock owners, insurers, and herd managers.",
         steps: [
             {
-                icon: "🕵️",
+                icon: "magnify",
                 heading: "Scene Assessment",
                 detail: "History review and on-site inspection of circumstances surrounding the death.",
             },
             {
-                icon: "🔬",
+                icon: "microscope",
                 heading: "Gross Necropsy",
                 detail: "Systematic examination of all organ systems by a certified vet.",
             },
             {
-                icon: "🧪",
+                icon: "beaker",
                 heading: "Lab Submission",
                 detail: "Tissue samples submitted for histopathology and toxicology where indicated.",
             },
             {
-                icon: "📋",
+                icon: "clipboard",
                 heading: "PME Certificate",
                 detail: "Official cause-of-death report for insurance, legal, or herd management use.",
             },
@@ -136,22 +136,22 @@ export const services: Service[] = [
         audience: "Commercial farms, cooperatives, and development programmes.",
         steps: [
             {
-                icon: "🏡",
+                icon: "home",
                 heading: "Farm Audit",
                 detail: "Biosecurity protocols, housing hygiene, feed storage, and water quality reviewed.",
             },
             {
-                icon: "📖",
+                icon: "book-open",
                 heading: "Health History Review",
                 detail: "Past disease events, vaccination records, and treatment histories examined.",
             },
             {
-                icon: "📈",
+                icon: "chart-up",
                 heading: "Risk Mapping",
                 detail: "Risks ranked by likelihood and impact using a structured risk matrix.",
             },
             {
-                icon: "🛡️",
+                icon: "shield",
                 heading: "Mitigation Plan",
                 detail: "Prioritised, practical recommendations with timelines and expected outcomes.",
             },
@@ -173,22 +173,22 @@ export const services: Service[] = [
         audience: "Large farms, cooperatives, and agribusiness investors.",
         steps: [
             {
-                icon: "📅",
+                icon: "calendar",
                 heading: "Scheduled Visits",
                 detail: "Regular on-farm visits aligned to your production cycle and seasonal risks.",
             },
             {
-                icon: "💉",
+                icon: "syringe",
                 heading: "Vaccination Management",
                 detail: "Vaccine calendars planned, administered, and documented on your behalf.",
             },
             {
-                icon: "📱",
+                icon: "device-mobile",
                 heading: "Remote Monitoring",
                 detail: "Platform dashboard with health trends, upcoming tasks, and alerts.",
             },
             {
-                icon: "🚨",
+                icon: "bell-alert",
                 heading: "Priority Emergency Response",
                 detail: "Subscribers go to the front of the queue for emergency dispatch.",
             },

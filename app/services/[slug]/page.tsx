@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { getServiceBySlug, services } from "@/lib/services";
 import ServiceHero from "@/components/ServiceHero";
 import CTABanner from "@/components/CTABanner";
+import ServiceIcon from "@/components/ServiceIcon";
 import Link from "next/link";
 
 /* ── Static params for all service slugs ──────────── */
@@ -147,7 +148,9 @@ export default async function ServicePage({
                                     {i + 1}
                                 </div>
                                 {/* Icon */}
-                                <div className="mb-4 text-3xl">{step.icon}</div>
+                                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                                    <ServiceIcon name={step.icon} className="h-5 w-5" />
+                                </div>
                                 <h3 className="mb-2 font-bold text-secondary">{step.heading}</h3>
                                 <p className="text-sm leading-relaxed text-secondary/60">{step.detail}</p>
                             </div>

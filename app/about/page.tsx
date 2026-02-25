@@ -1,5 +1,6 @@
 // app/about/page.tsx
 import Link from "next/link";
+import ServiceIcon from "@/components/ServiceIcon";
 import { Playfair_Display, DM_Sans } from "next/font/google";
 
 // Fonts
@@ -170,8 +171,10 @@ const ClinicHighlight = () => (
               "Friendly, patient-focused team",
             ].map((item) => (
               <li key={item} className="flex items-center gap-3 text-sm text-white/85">
-                <span className="w-5 h-5 rounded-full bg-[#f55c15] flex items-center justify-center text-[10px] font-bold flex-shrink-0">
-                  ✚
+                <span className="w-5 h-5 rounded-full bg-[#f55c15] flex items-center justify-center flex-shrink-0">
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                    <path d="M5 1v8M1 5h8" stroke="white" strokeWidth="1.8" strokeLinecap="round" />
+                  </svg>
                 </span>
                 {item}
               </li>
@@ -237,19 +240,19 @@ const MissionVisionValues = () => {
 const Team = () => {
   const members = [
     {
-      emoji: "🩺",
+      icon: "stethoscope",
       name: "Dr. [Lead Vet Name]",
       role: "Veterinary Surgeon · Small Animals",
       desc: "Oversees medical decisions and complex cases with a focus on accurate diagnosis, gentle handling and long-term wellness for every pet.",
     },
     {
-      emoji: "💉",
+      icon: "syringe",
       name: "[Nurse / Assistant Name]",
       role: "Veterinary Nurse · Patient Care",
       desc: "Supports patients before, during and after visits – from preparing treatment rooms to monitoring recovery and comfort.",
     },
     {
-      emoji: "📋",
+      icon: "clipboard",
       name: "[Reception / Client Care]",
       role: "Client Experience & Bookings",
       desc: "Welcomes clients, manages bookings and keeps communication clear – from reminders and follow-ups to answering everyday questions.",
@@ -277,8 +280,10 @@ const Team = () => {
             key={member.name}
             className="bg-white border border-[#e0dddc] rounded-2xl overflow-hidden group hover:shadow-lg transition-shadow duration-200"
           >
-            <div className="h-44 bg-[#e0dddc] group-hover:bg-[#f55c15]/10 transition-colors duration-200 flex items-center justify-center text-5xl">
-              {member.emoji}
+            <div className="h-44 bg-[#e0dddc] group-hover:bg-[#f55c15]/10 transition-colors duration-200 flex items-center justify-center">
+              <span className="flex h-20 w-20 items-center justify-center rounded-2xl bg-[#0b224d]/10 text-[#0b224d] group-hover:bg-[#f55c15]/20 group-hover:text-[#f55c15] transition-colors duration-200">
+                <ServiceIcon name={member.icon} className="h-10 w-10" />
+              </span>
             </div>
             <div className="p-6">
               <p className={`${playfair.className} text-lg font-bold text-[#0b224d] mb-1`}>
