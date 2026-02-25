@@ -3,29 +3,22 @@
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  Home,
-  ClipboardCheck,
-  FileText,
-  Building2,
-  Phone,
-  CalendarDays,
-} from "lucide-react";
+
 
 type NavItem =
-  | { label: string; href: string; children?: never }
-  | { label: string; href?: never; children: { label: string; href: string }[] };
+    | { label: string; href: string; children?: never }
+    | { label: string; href?: never; children: { label: string; href: string }[] };
 
 const navItems: NavItem[] = [
   { label: "Home", href: "/" },
   {
     label: "Inspections",
     children: [
-      { label: "Clinical Inspection", href: "/services/clinical-inspection" },
-      { label: "Emergency Inspection", href: "/services/emergency-inspection" },
-      { label: "Herd Health Inspection", href: "/services/herd-inspection" },
-      { label: "Livestock Valuation Inspection", href: "/services/livestock-valuation" },
-      { label: "Livestock Postmortem Inspection", href: "/services/clinical-inspection" },
+      { label: "Clinical Examination", href: "/services/clinical-examination" },
+      { label: "Livestock valuation inspections", href: "/services/livestock-valuation-inspection" },
+      { label: "Postmortem Inspections", href: "/services/postmortem-inspection" },
+      { label: "Disease risk assessment", href: "/services/disease-risk-assessment" },
+      { label: "Ongoing herd health monitoring", href: "/services/ongoing-herd-health-monitoring" },
     ],
   },
   { label: "Blog", href: "/blog" },
@@ -41,30 +34,12 @@ const navItems: NavItem[] = [
   { label: "Book A Private Valuation", href: "/book" },
 ];
 
-/* ✅ ICON MAPPING (Added Only) */
-function getIcon(label: string) {
-  switch (label) {
-    case "Home":
-      return <Home size={16} />;
-    case "Inspections":
-      return <ClipboardCheck size={16} />;
-    case "Blog":
-      return <FileText size={16} />;
-    case "Company":
-      return <Building2 size={16} />;
-    case "Contacts":
-      return <Phone size={16} />;
-    case "Book A Private Valuation":
-      return <CalendarDays size={16} />;
-    default:
-      return null;
-  }
-}
 
 function DropdownLink({ item }: { item: NavItem }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLLIElement>(null);
 
+  /* Close when clicking outside */
   useEffect(() => {
     function handle(e: MouseEvent) {
       if (ref.current && !ref.current.contains(e.target as Node)) {
@@ -77,219 +52,198 @@ function DropdownLink({ item }: { item: NavItem }) {
 
   if (!item.children) {
     return (
-      <li>
-        <Link
-          href={item.href}
-          className="text-sm font-semibold text-secondary hover:text-primary transition-colors"
-        >
-          <span className="inline-flex items-center gap-2">
-            {getIcon(item.label)}
+        <li>
+          <Link
+              href={item.href}
+              className="text-sm font-semibold text-secondary hover:text-primary transition-colors"
+          >
             {item.label}
-          </span>
-        </Link>
-      </li>
+          </Link>
+        </li>
     );
   }
 
   return (
-    <li ref={ref} className="relative">
-      <button
-        onClick={() => setOpen((p) => !p)}
-        className="flex items-center gap-1 text-sm font-semibold text-secondary hover:text-primary transition-colors"
-      >
-        <span className="inline-flex items-center gap-2">
-          {getIcon(item.label)}
-          {item.label}
-        </span>
-        <svg
-          className={`h-3 w-3 transition-transform ${open ? "rotate-180" : ""}`}
-          viewBox="0 0 20 20"
-          fill="currentColor"
+      <li ref={ref} className="relative">
+        <button
+            onClick={() => setOpen((p) => !p)}
+            className="flex items-center gap-1 text-sm font-semibold text-secondary hover:text-primary transition-colors"
         >
-          <path
-            fillRule="evenodd"
-            d="M5.23 7.21a.75.75 0 011.06.02L10 11.17l3.71-3.94a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0L5.21 8.27a.75.75 0 01.02-1.06z"
-            clipRule="evenodd"
-          />
-        </svg>
-      </button>
+          {item.label}
+          <svg
+              className={`h-3 w-3 transition-transform ${open ? "rotate-180" : ""}`}
+              viewBox="0 0 20 20"
+              fill="currentColor"
+          >
+            <path
+                fillRule="evenodd"
+                d="M5.23 7.21a.75.75 0 011.06.02L10 11.17l3.71-3.94a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0L5.21 8.27a.75.75 0 01.02-1.06z"
+                clipRule="evenodd"
+            />
+          </svg>
+        </button>
 
-      {open && (
-        <ul className="absolute left-0 top-full mt-2 min-w-[180px] rounded-lg border border-tertiary/40 bg-white py-1.5 shadow-lg z-50">
-          {item.children.map((child) => (
-            <li key={child.href}>
-              <Link
-                href={child.href}
-                onClick={() => setOpen(false)}
-                className="block px-4 py-2 text-sm text-secondary hover:bg-tertiary/20 hover:text-primary transition-colors"
-              >
-                {child.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      )}
-    </li>
+        {open && (
+            <ul className="absolute left-0 top-full mt-2 min-w-[260px] rounded-lg border border-tertiary/40 bg-white py-1.5 shadow-lg z-50">
+              {item.children.map((child) => (
+                  <li key={child.href}>
+                    <Link
+                        href={child.href}
+                        onClick={() => setOpen(false)}
+                        className="block px-4 py-2 text-sm text-secondary hover:bg-tertiary/20 hover:text-primary transition-colors"
+                    >
+                      {child.label}
+                    </Link>
+                  </li>
+              ))}
+            </ul>
+        )}
+      </li>
   );
 }
 
+/* ─── Navbar ────────────────────────────────────────────── */
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const offset = window.scrollY;
-      setScrolled(offset > 10);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    handleScroll();
-
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-200 ${
-        scrolled ? "bg-white shadow-sm" : "bg-transparent"
-      }`}
-    >
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2.5 lg:px-8">
-        <Link href="/" className="flex items-center shrink-0">
-          <Image
-            src="/logo/logo.png"
-            alt="RapidVets logo"
-            width={289}
-            height={98}
-            priority
-            className="h-14 w-auto object-contain"
-          />
-        </Link>
+      <header className="fixed inset-x-0 top-0 z-50 bg-white shadow-sm">
+        <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2.5 lg:px-8">
 
-        <ul className="hidden items-center gap-7 lg:flex">
-          {navItems.map((item) => (
-            <DropdownLink key={item.label} item={item} />
-          ))}
-        </ul>
-
-        <div className="hidden items-center gap-2 lg:flex">
-          <Link
-            href="/get-started"
-            className="rounded-md bg-secondary px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-secondary/85"
-          >
-            Get Started
+          {/* Logo */}
+          <Link href="/" className="flex items-center shrink-0">
+            <Image
+                src="/logo/logo.png"
+                alt="RapidVets logo"
+                width={289}
+                height={98}
+                priority
+                className="h-14 w-auto object-contain"
+            />
           </Link>
-          <Link
-            href="/sign-in"
-            className="rounded-md bg-primary px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-primary/85"
-          >
-            Sign In
-          </Link>
-        </div>
 
-        <button
-          type="button"
-          aria-label="Toggle menu"
-          onClick={() => setMobileOpen((p) => !p)}
-          className="inline-flex items-center justify-center rounded-md p-2 text-secondary hover:text-primary lg:hidden"
-        >
-          {mobileOpen ? (
-            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          ) : (
-            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeWidth={2} d="M4 7h16M4 12h16M4 17h16" />
-            </svg>
-          )}
-        </button>
-      </nav>
+          {/* Desktop nav links */}
+          <ul className="hidden items-center gap-7 lg:flex">
+            {navItems.map((item) => (
+                <DropdownLink key={item.label} item={item} />
+            ))}
+          </ul>
 
-      {mobileOpen && (
-        <div className="border-t border-tertiary/40 bg-white lg:hidden">
-          <div className="mx-auto max-w-7xl px-4 py-3 space-y-1">
-            {navItems.map((item) => {
-              if (!item.children) {
-                return (
-                  <Link
-                    key={item.label}
-                    href={item.href}
-                    onClick={() => setMobileOpen(false)}
-                    className="block rounded-md px-3 py-2 text-sm font-semibold text-secondary hover:bg-tertiary/20 hover:text-primary"
-                  >
-                    <span className="inline-flex items-center gap-2">
-                      {getIcon(item.label)}
-                      {item.label}
-                    </span>
-                  </Link>
-                );
-              }
-
-              const expanded = mobileExpanded === item.label;
-              return (
-                <div key={item.label}>
-                  <button
-                    onClick={() =>
-                      setMobileExpanded(expanded ? null : item.label)
-                    }
-                    className="flex w-full items-center justify-between rounded-md px-3 py-2 text-sm font-semibold text-secondary hover:bg-tertiary/20 hover:text-primary"
-                  >
-                    <span className="inline-flex items-center gap-2">
-                      {getIcon(item.label)}
-                      {item.label}
-                    </span>
-                    <svg
-                      className={`h-4 w-4 transition-transform ${expanded ? "rotate-180" : ""}`}
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M5.23 7.21a.75.75 0 011.06.02L10 11.17l3.71-3.94a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0L5.21 8.27a.75.75 0 01.02-1.06z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </button>
-
-                  {expanded && (
-                    <div className="ml-4 mt-0.5 border-l-2 border-tertiary/40 pl-3 space-y-0.5">
-                      {item.children.map((child) => (
-                        <Link
-                          key={child.href}
-                          href={child.href}
-                          onClick={() => setMobileOpen(false)}
-                          className="block rounded-md px-3 py-1.5 text-sm text-secondary/80 hover:text-primary"
-                        >
-                          {child.label}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-
-            <div className="flex gap-2 pt-2">
-              <Link
+          {/* Desktop CTAs */}
+          <div className="hidden items-center gap-2 lg:flex">
+            <Link
                 href="/get-started"
-                onClick={() => setMobileOpen(false)}
-                className="flex-1 rounded-md bg-secondary py-2 text-center text-sm font-semibold text-white transition hover:bg-secondary/85"
-              >
-                Get Started
-              </Link>
-              <Link
+                className="rounded-md bg-secondary px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-secondary/85"
+            >
+              Get Started
+            </Link>
+            <Link
                 href="/sign-in"
-                onClick={() => setMobileOpen(false)}
-                className="flex-1 rounded-md bg-primary py-2 text-center text-sm font-semibold text-white transition hover:bg-primary/85"
-              >
-                Sign In
-              </Link>
-            </div>
+                className="rounded-md bg-primary px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-primary/85"
+            >
+              Sign In
+            </Link>
           </div>
-        </div>
-      )}
-    </header>
+
+          {/* Mobile hamburger */}
+          <button
+              type="button"
+              aria-label="Toggle menu"
+              onClick={() => setMobileOpen((p) => !p)}
+              className="inline-flex items-center justify-center rounded-md p-2 text-secondary hover:text-primary lg:hidden"
+          >
+            {mobileOpen ? (
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            ) : (
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeWidth={2} d="M4 7h16M4 12h16M4 17h16" />
+                </svg>
+            )}
+          </button>
+        </nav>
+
+        {/* Mobile drawer */}
+        {mobileOpen && (
+            <div className="border-t border-tertiary/40 bg-white lg:hidden">
+              <div className="mx-auto max-w-7xl px-4 py-3 space-y-1">
+                {navItems.map((item) => {
+                  if (!item.children) {
+                    return (
+                        <Link
+                            key={item.label}
+                            href={item.href}
+                            onClick={() => setMobileOpen(false)}
+                            className="block rounded-md px-3 py-2 text-sm font-semibold text-secondary hover:bg-tertiary/20 hover:text-primary"
+                        >
+                          {item.label}
+                        </Link>
+                    );
+                  }
+
+                  const expanded = mobileExpanded === item.label;
+                  return (
+                      <div key={item.label}>
+                        <button
+                            onClick={() =>
+                                setMobileExpanded(expanded ? null : item.label)
+                            }
+                            className="flex w-full items-center justify-between rounded-md px-3 py-2 text-sm font-semibold text-secondary hover:bg-tertiary/20 hover:text-primary"
+                        >
+                          {item.label}
+                          <svg
+                              className={`h-4 w-4 transition-transform ${expanded ? "rotate-180" : ""}`}
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
+                          >
+                            <path
+                                fillRule="evenodd"
+                                d="M5.23 7.21a.75.75 0 011.06.02L10 11.17l3.71-3.94a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0L5.21 8.27a.75.75 0 01.02-1.06z"
+                                clipRule="evenodd"
+                            />
+                          </svg>
+                        </button>
+
+                        {expanded && (
+                            <div className="ml-4 mt-0.5 border-l-2 border-tertiary/40 pl-3 space-y-0.5">
+                              {item.children.map((child) => (
+                                  <Link
+                                      key={child.href}
+                                      href={child.href}
+                                      onClick={() => setMobileOpen(false)}
+                                      className="block rounded-md px-3 py-1.5 text-sm text-secondary/80 hover:text-primary"
+                                  >
+                                    {child.label}
+                                  </Link>
+                              ))}
+                            </div>
+                        )}
+                      </div>
+                  );
+                })}
+
+                {/* Mobile CTAs */}
+                <div className="flex gap-2 pt-2">
+                  <Link
+                      href="/get-started"
+                      onClick={() => setMobileOpen(false)}
+                      className="flex-1 rounded-md bg-secondary py-2 text-center text-sm font-semibold text-white transition hover:bg-secondary/85"
+                  >
+                    Get Started
+                  </Link>
+                  <Link
+                      href="/sign-in"
+                      onClick={() => setMobileOpen(false)}
+                      className="flex-1 rounded-md bg-primary py-2 text-center text-sm font-semibold text-white transition hover:bg-primary/85"
+                  >
+                    Sign In
+                  </Link>
+                </div>
+              </div>
+            </div>
+        )}
+      </header>
   );
 }

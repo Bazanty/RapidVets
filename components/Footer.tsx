@@ -3,10 +3,11 @@ import Link from "next/link";
 
 /* ─── Footer link columns ──────────────────────────────── */
 const solutions = [
-    { label: "Clinical Inspection", href: "/services/valuation" },
-    { label: "Emergency Inspection", href: "/services/accident" },
-    { label: "Livestock Valuation Inspection", href: "/services/repair" },
-    { label: "Livestock Postmortem Inspection", href: "/services/post-repair" },
+    { label: "Clinical Examination", href: "/services/clinical-examination" },
+    { label: "Livestock valuation inspections", href: "/services/livestock-valuation-inspection" },
+    { label: "Postmortem Inspections", href: "/services/postmortem-inspection" },
+    { label: "Disease risk assessment", href: "/services/disease-risk-assessment" },
+    { label: "Ongoing herd health monitoring", href: "/services/ongoing-herd-health-monitoring" }
 ];
 
 const resources = [
@@ -69,7 +70,7 @@ export default function Footer() {
                             Mail: team@rapidvets.co.ke
                         </p>
                         <p className="text-sm text-secondary/70">
-                            Tel: 0769 737442 | 0794 680975
+                            Tel: 0712345678 | 0787654321
                         </p>
 
                         {/* Social icons */}
