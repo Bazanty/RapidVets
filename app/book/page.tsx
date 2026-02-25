@@ -65,7 +65,7 @@ export default function RapidVetsBookingPage() {
           >
             <div className="absolute inset-0 bg-gradient-to-r from-slate-900/10 via-transparent to-orange-500/10" />
             <Image
-              src="/images/dog-vet-hero.jpg"
+              src="/home/torn anterior cruciate ligament in dogs_ Causes & Treatment.jpg"
               alt="Vet gently examining a happy dog"
               width={1600}
               height={700}
