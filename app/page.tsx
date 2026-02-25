@@ -1,6 +1,6 @@
 import React from 'react'
-import Hero from './components/Hero'
-import RoleSelector from './components/RoleSelector'
+import Hero from '@/components/Hero'
+import RoleSelector from '@/components/RoleSelector'
 
 export default function Home() {
   return (
