@@ -2,7 +2,7 @@
 import React from "react";
 import Link from "next/link";
 import { Playfair_Display, DM_Sans } from "next/font/google";
-import VetLocatorMapWrapper from "../components/VetLocatorMapWrapper"; // 👈 import the wrapper
+import VetLocatorMapWrapper from "@/components/VetLocatorMapWrapper"; // 👈 import the wrapper
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
