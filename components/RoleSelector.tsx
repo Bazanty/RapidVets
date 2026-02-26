@@ -35,7 +35,7 @@ const roles = [
             </svg>
         ),
         cta: "Join Our Vet Network",
-        href: "/get-started?role=vet",
+        href: "/careers",
         accent: "from-primary to-primary/80",
         accentText: "text-primary",
         accentBg: "bg-primary",
@@ -73,6 +73,12 @@ export default function RoleSelector() {
                 behavior: "smooth",
                 block: "start",
             });
+            return;
+        }
+
+        // Vet card redirects directly to Careers page
+        if (roleId === "vet") {
+            window.location.href = "/careers";
             return;
         }
 
