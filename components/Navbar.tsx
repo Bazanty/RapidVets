@@ -139,7 +139,7 @@ export default function Navbar() {
             Get Started
           </Link>
           <Link
-            href="/sign-in"
+            href="https://partners.newrapidvets.com/login"
             className="rounded-md bg-primary px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-primary/85"
           >
             Sign In
@@ -234,7 +234,7 @@ export default function Navbar() {
                 Get Started
               </Link>
               <Link
-                href="/sign-in"
+                href="https://partners.newrapidvets.com/login"
                 onClick={() => setMobileOpen(false)}
                 className="flex-1 rounded-md bg-primary py-2 text-center text-sm font-semibold text-white transition hover:bg-primary/85"
               >
