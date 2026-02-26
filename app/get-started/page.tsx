@@ -243,16 +243,15 @@ export default function GetStartedPage() {
   return (
     <main className="min-h-screen bg-white text-secondary">
       {/* ── Hero ── */}
-      <section className="relative bg-secondary overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, white 1px, transparent 0)", backgroundSize: "28px 28px" }} />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-24 text-center">
-          <span className="inline-block rounded-full bg-primary/15 px-4 py-1.5 text-[11px] font-bold uppercase tracking-widest text-primary mb-5">
+      <section className="relative bg-white border-b border-secondary/10">
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-24 text-center">
+          <span className="inline-block rounded-full bg-primary/10 px-4 py-1.5 text-[11px] font-bold uppercase tracking-widest text-primary mb-5">
             Get Started
           </span>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-[1.1] mb-4">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-secondary leading-[1.1] mb-4">
             Getting <span className="text-primary">Started</span>
           </h1>
-          <p className="text-white/55 text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
+          <p className="text-secondary/60 text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
             For a better experience, we encourage first-time users to learn
             about their options and pick the path that fits them best.
           </p>
@@ -260,19 +259,19 @@ export default function GetStartedPage() {
       </section>
 
       {/* ── Tab bar ── */}
-      <div className="bg-white border-b border-secondary/10 sticky top-16 z-40 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex gap-0 overflow-x-auto no-scrollbar">
+      <div className="bg-white border-b border-secondary/10 sticky top-16 z-40 shadow-sm relative">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex gap-2 sm:gap-6 justify-center overflow-x-auto no-scrollbar">
             {tabs.map((t) => (
               <button
                 key={t.id}
                 onClick={() => setActiveTab(t.id)}
-                className={`flex items-center gap-2 px-5 py-4 text-sm font-semibold border-b-2 transition-colors whitespace-nowrap ${activeTab === t.id
-                    ? "border-primary text-primary"
-                    : "border-transparent text-secondary/50 hover:text-secondary hover:border-secondary/20"
+                className={`flex items-center gap-2 px-2 sm:px-5 py-4 text-sm font-semibold border-b-2 transition-colors whitespace-nowrap ${activeTab === t.id
+                  ? "border-primary text-primary"
+                  : "border-transparent text-secondary/50 hover:text-secondary hover:border-secondary/20"
                   }`}
               >
-                {t.icon}
+                <span className="text-lg">{t.icon}</span>
                 {t.label}
               </button>
             ))}
@@ -281,87 +280,54 @@ export default function GetStartedPage() {
       </div>
 
       {/* ── Content ── */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
-
-          {/* Left — form */}
-          <div className="bg-white border border-secondary/10 rounded-3xl p-6 sm:p-8 shadow-sm">
-            <div className="mb-7">
-              <h2 className="text-2xl sm:text-3xl font-bold text-secondary mb-2">{tab.headline}</h2>
-              <p className="text-sm text-secondary/55">{tab.sub}</p>
-            </div>
-            <form onSubmit={(e) => e.preventDefault()}>
-              {tab.id === "company" && <CompanyForm />}
-              {tab.id === "owner" && <OwnerForm />}
-              {tab.id === "vet" && <VetForm />}
-            </form>
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20 space-y-8">
+        <div className="bg-white border border-secondary/10 rounded-3xl p-6 sm:p-10 shadow-sm">
+          <div className="mb-8 text-center sm:text-left">
+            <h2 className="text-2xl sm:text-3xl font-bold text-secondary mb-2">{tab.headline}</h2>
+            <p className="text-sm text-secondary/55">{tab.sub}</p>
           </div>
+          <form onSubmit={(e) => e.preventDefault()}>
+            {tab.id === "company" && <CompanyForm />}
+            {tab.id === "owner" && <OwnerForm />}
+            {tab.id === "vet" && <VetForm />}
+          </form>
+        </div>
 
-          {/* Right — perks + quick links */}
-          <div className="space-y-6">
-            {/* Perks */}
-            <div>
-              <h3 className="text-sm font-bold uppercase tracking-widest text-secondary/40 mb-4">
-                What you get
-              </h3>
-              <div className="space-y-4">
-                {perks[activeTab].map((perk) => (
-                  <div key={perk.title} className="flex gap-4 p-5 bg-white border border-secondary/10 rounded-2xl hover:border-primary/20 hover:shadow-md transition-all duration-300">
-                    <span className="text-2xl flex-shrink-0">{perk.icon}</span>
-                    <div>
-                      <p className="text-sm font-bold text-secondary mb-1">{perk.title}</p>
-                      <p className="text-xs text-secondary/55 leading-relaxed">{perk.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
+        {/* Quick contact card */}
+        <div className="bg-secondary rounded-3xl p-6 sm:p-8 text-white shadow-lg">
+          <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 mb-6 sm:mb-8">
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary flex-shrink-0">
+              <svg className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+              </svg>
             </div>
-
-            {/* Quick contact card */}
-            <div className="bg-secondary rounded-2xl p-6 text-white">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary">
-                  <svg className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
-                  </svg>
-                </div>
-                <div>
-                  <p className="text-xs text-white/50 uppercase tracking-wide">Prefer to talk?</p>
-                  <p className="text-sm font-bold">Call us directly</p>
-                </div>
-              </div>
-              <a
-                href="tel:+254712345678"
-                className="block w-full text-center rounded-xl bg-white/10 border border-white/15 px-4 py-3 text-sm font-semibold text-white hover:bg-white/20 transition-colors mb-3"
-              >
-                +254 712 345 678
-              </a>
-              <a
-                href="mailto:team@rapidvets.co.ke"
-                className="block w-full text-center rounded-xl bg-primary px-4 py-3 text-sm font-semibold text-white hover:bg-primary/90 transition-colors"
-              >
-                team@rapidvets.co.ke
-              </a>
+            <div className="text-center sm:text-left">
+              <p className="text-xs text-white/50 uppercase tracking-widest font-semibold mb-1">Prefer to talk?</p>
+              <p className="text-xl sm:text-2xl font-bold">Call us directly</p>
+              <p className="text-sm text-white/60 mt-2 max-w-sm">
+                If you need immediate assistance or have a specific inquiry, our team is available 24/7.
+              </p>
             </div>
-
-            {/* Explore links */}
-            <div className="grid grid-cols-2 gap-3">
-              {[
-                { href: "/services", label: "Our Services", icon: "🩺" },
-                { href: "/careers", label: "Earn with us", icon: "💼" },
-                { href: "/about", label: "About RapidVets", icon: "ℹ️" },
-                { href: "/contact", label: "Find a Vet", icon: "📍" },
-              ].map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="flex items-center gap-2.5 rounded-xl border border-secondary/10 bg-white p-4 text-xs font-semibold text-secondary hover:border-primary/20 hover:shadow-sm transition-all"
-                >
-                  <span className="text-base">{link.icon}</span>
-                  {link.label}
-                </Link>
-              ))}
-            </div>
+          </div>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <a
+              href="tel:+254712345678"
+              className="flex-1 flex items-center justify-center gap-2 rounded-xl bg-white/10 border border-white/15 px-4 py-4 text-sm font-semibold text-white hover:bg-white/20 transition-colors"
+            >
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+              </svg>
+              +254 712 345 678
+            </a>
+            <a
+              href="mailto:team@rapidvets.co.ke"
+              className="flex-1 flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-4 text-sm font-semibold text-white hover:bg-primary/90 transition-colors"
+            >
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+              </svg>
+              team@rapidvets.co.ke
+            </a>
           </div>
         </div>
       </div>
