@@ -52,18 +52,17 @@ const steps = [
 /* ─── Component ──────────────────────────────────────────── */
 export default function HowItWorks() {
     return (
-        <section id="how-it-works" className="relative bg-white py-16 lg:py-28 overflow-hidden">
-            {/* Subtle background decoration */}
-            <div className="relative mx-auto max-w-7xl px-4 lg:px-8">
+        <section id="how-it-works" className="relative bg-white py-16 lg:py-20 overflow-hidden">
+            <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 {/* Section header */}
-                <div className="text-center mb-16 lg:mb-20">
+                <div className="text-center mb-10 sm:mb-14 lg:mb-20">
                     <span className="inline-block rounded-full bg-primary/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-primary">
                         Our Process
                     </span>
-                    <h2 className="mt-4 text-3xl font-bold text-secondary md:text-4xl lg:text-5xl">
+                    <h2 className="mt-4 text-2xl sm:text-3xl font-bold text-secondary md:text-4xl lg:text-5xl">
                         How it Works
                     </h2>
-                    <p className="mx-auto mt-4 max-w-2xl text-base text-secondary/60 md:text-lg">
+                    <p className="mx-auto mt-3 sm:mt-4 max-w-2xl text-sm sm:text-base text-secondary/60 md:text-lg leading-relaxed">
                         Once we have received the request to inspect, we notify the customer
                         and our roaming vets get to the location as soon as possible. The vet
                         conducts the inspection and submits a report which is then made
@@ -72,9 +71,9 @@ export default function HowItWorks() {
                 </div>
 
                 {/* Two-column layout */}
-                <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-                    {/* Left – Image */}
-                    <div className="relative">
+                <div className="grid lg:grid-cols-2 gap-10 lg:gap-20 items-center">
+                    {/* Left – Image (hidden on mobile) */}
+                    <div className="relative hidden lg:block">
                         {/* Main image container */}
                         <div className="relative overflow-hidden shadow-2xl shadow-secondary/15">
                             <Image
@@ -82,16 +81,16 @@ export default function HowItWorks() {
                                 alt="RapidVets veterinarian in the field"
                                 width={600}
                                 height={720}
-                                className="w-full h-[500px] lg:h-[700px] object-cover"
-                                sizes="(max-width: 1024px) 100vw, 50vw"
+                                className="w-full h-[500px] lg:h-[650px] object-cover"
+                                sizes="50vw"
                             />
                             {/* Gradient overlay at bottom */}
                             <div className="absolute inset-0 bg-gradient-to-t from-secondary/40 via-transparent to-transparent" />
                         </div>
 
                         {/* Floating accent card */}
-                        <div className="absolute -bottom-6 -right-4 lg:-right-8 bg-white rounded-2xl shadow-xl shadow-secondary/10 border border-tertiary/30 px-6 py-4 flex items-center gap-3">
-                            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-primary text-white">
+                        <div className="absolute -bottom-5 -right-6 bg-white rounded-2xl shadow-xl shadow-secondary/10 border border-tertiary/30 px-5 py-3.5 flex items-center gap-3">
+                            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-white">
                                 <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
@@ -105,22 +104,22 @@ export default function HowItWorks() {
 
                     {/* Right – Steps */}
                     <div className="relative">
-                        <div className="space-y-8 lg:space-y-10">
+                        <div className="space-y-5 sm:space-y-6 lg:space-y-8">
                             {steps.map((step) => (
-                                <div key={step.num} className="group relative pl-7">
+                                <div key={step.num} className="group relative pl-8 sm:pl-9">
                                     {/* Number circle — overlaps card left edge, vertically centered */}
                                     <div className="absolute left-0 top-1/2 -translate-y-1/2 z-10">
-                                        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-white font-bold text-xl shadow-lg shadow-primary/25 transition-transform duration-300 group-hover:scale-110">
+                                        <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-primary text-white font-bold text-base sm:text-xl shadow-lg shadow-primary/25 transition-transform duration-300 group-hover:scale-110">
                                             {step.num}
                                         </div>
                                     </div>
 
                                     {/* Card */}
-                                    <div className="ml-2 border border-secondary/10 bg-white px-7 py-5 transition-shadow duration-300 group-hover:shadow-md w-md">
-                                        <h3 className="text-lg font-bold text-secondary mb-1.5 group-hover:text-primary transition-colors duration-300">
+                                    <div className="ml-1 sm:ml-2 rounded-xl border border-secondary/10 bg-white px-5 py-4 sm:px-7 sm:py-5 transition-all duration-300 group-hover:shadow-md group-hover:border-primary/20">
+                                        <h3 className="text-base sm:text-lg font-bold text-secondary mb-1 sm:mb-1.5 group-hover:text-primary transition-colors duration-300">
                                             {step.title}
                                         </h3>
-                                        <p className="text-sm leading-relaxed text-secondary/55">
+                                        <p className="text-xs sm:text-sm leading-relaxed text-secondary/55">
                                             {step.detail}
                                         </p>
                                     </div>
