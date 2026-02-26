@@ -7,12 +7,14 @@ const playfair = Playfair_Display({
   subsets: ["latin"],
   weight: ["600", "800"],
   display: "swap",
+  preload: false,
 });
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600"],
   display: "swap",
+  preload: false,
 });
 
 export default function Hero() {

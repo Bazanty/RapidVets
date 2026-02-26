@@ -66,6 +66,20 @@ const roles = [
 export default function RoleSelector() {
     const [selected, setSelected] = useState<string | null>(null);
 
+    const handleSelect = (roleId: string) => {
+        // Company card scrolls directly to How-it-works
+        if (roleId === "company") {
+            document.getElementById("how-it-works")?.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+            });
+            return;
+        }
+
+        const isActive = selected === roleId;
+        setSelected(isActive ? null : roleId);
+    };
+
     return (
         <section className="relative bg-white py-20 overflow-hidden">
             {/* Subtle decorative blobs */}
@@ -99,7 +113,7 @@ export default function RoleSelector() {
                         return (
                             <button
                                 key={role.id}
-                                onClick={() => setSelected(isActive ? null : role.id)}
+                                onClick={() => handleSelect(role.id)}
                                 className={`group relative flex flex-col items-center gap-4 rounded-2xl border-2 p-8 text-center transition-all duration-300 
                   ${isActive
                                         ? `border-current ${role.accentText} shadow-lg scale-[1.03]`
@@ -136,12 +150,12 @@ export default function RoleSelector() {
                     })}
                 </div>
 
-                {/* CTA appears when a role is selected */}
+                {/* CTA appears when a non-company role is selected */}
                 <div
-                    className={`mt-8 transition-all duration-500 ${selected ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"
+                    className={`mt-8 transition-all duration-500 ${selected && selected !== "company" ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"
                         }`}
                 >
-                    {selected && (
+                    {selected && selected !== "company" && (
                         <Link
                             href={roles.find((r) => r.id === selected)!.href}
                             className="inline-flex items-center gap-2 rounded-md bg-primary px-8 py-3.5 text-base font-semibold text-white shadow-md transition hover:bg-primary/90"
