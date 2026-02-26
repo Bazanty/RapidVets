@@ -30,7 +30,7 @@ const navItems: NavItem[] = [
       { label: "Careers", href: "/careers" },
     ],
   },
-  { label: "Contacts", href: "/contact" },
+  { label: "Contact", href: "/contact" },
   { label: "Book A Private Session", href: "/book" },
 ];
 
