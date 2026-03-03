@@ -5,15 +5,21 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
-// Fix default marker icons in Next.js
-delete (L.Icon.Default.prototype as any)._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon-2x.png",
-  iconUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png",
-  shadowUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png",
+// Custom branded orange pin icon
+const brandedIcon = L.divIcon({
+  className: "",
+  html: `
+    <svg width="32" height="40" viewBox="0 0 32 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M16 0C7.163 0 0 7.163 0 16c0 10.5 16 24 16 24S32 26.5 32 16C32 7.163 24.837 0 16 0z" fill="#f55c15"/>
+      <circle cx="16" cy="16" r="6" fill="white"/>
+    </svg>
+  `,
+  iconSize: [32, 40],
+  iconAnchor: [16, 40],
+  popupAnchor: [0, -42],
 });
 
-// Sample vet data for Kenya (you would fetch real data from your DB)
+// Sample vet data for Kenya
 const kenyaVets = [
   { id: 1, name: "RapidVets Nairobi", lat: -1.286389, lng: 36.817223, address: "Upper Hill, Nairobi" },
   { id: 2, name: "RapidVets Mombasa", lat: -4.043477, lng: 39.668205, address: "Nyali, Mombasa" },
@@ -23,7 +29,6 @@ const kenyaVets = [
 ];
 
 export default function VetLocatorMap() {
-  // Center on Nairobi, Kenya
   const position: [number, number] = [-1.286389, 36.817223];
 
   return (
@@ -38,11 +43,13 @@ export default function VetLocatorMap() {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       {kenyaVets.map((vet) => (
-        <Marker key={vet.id} position={[vet.lat, vet.lng]}>
+        <Marker key={vet.id} position={[vet.lat, vet.lng]} icon={brandedIcon}>
           <Popup>
-            <strong>{vet.name}</strong>
-            <br />
-            {vet.address}
+            <div style={{ fontFamily: "sans-serif", fontSize: "13px", lineHeight: "1.6" }}>
+              <strong style={{ color: "#0b224d" }}>{vet.name}</strong>
+              <br />
+              <span style={{ color: "#666" }}>{vet.address}</span>
+            </div>
           </Popup>
         </Marker>
       ))}
