@@ -1,6 +1,6 @@
 import Hero from '@/components/Hero';
 import RoleSelector from '@/components/RoleSelector';
-import Companies from '@/components/Companies';
+import Companies from '../components/Companies';
 import CTABanner from '@/components/CTABanner';
 import FAQ from '@/components/FAQ';
 
