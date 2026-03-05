@@ -234,7 +234,7 @@ export default function Navbar() {
                 Get Started
               </Link>
               <Link
-                href="https://partners.newrapidvets.com/login"
+                href="https://admin.newrapidvets.com/login"
                 onClick={() => setMobileOpen(false)}
                 className="flex-1 rounded-md bg-primary py-2 text-center text-sm font-semibold text-white transition hover:bg-primary/85"
               >
