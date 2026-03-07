@@ -20,8 +20,11 @@ const geistMono = Geist_Mono({
 
 // Metadata + Favicons
 export const metadata: Metadata = {
+  metadataBase: new URL("https://rapidvets.co.ke"), // ✅ add this line
+
   title: "Home - Rapid Vets",
   description: "Rapid Vets – fast, modern veterinary services.",
+
   icons: {
     icon: [
       { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
