@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useState } from "react";
 
 const partners = [
   { name: "Amica", src: "/logo/amica.png" },
@@ -17,179 +17,223 @@ const partners = [
   { name: "Vision", src: "/logo/vision.png" },
 ];
 
-const COUNT = partners.length;
+const partnerCategories = [
+  "Insurance",
+  "AgriTech",
+  "Livestock Services",
+  "Financial Institutions",
+];
 
-export default function Companies() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const angleRef = useRef(0);
-  const rafRef = useRef<number>(0);
+function LogoCard({
+  partner,
+  compact = false,
+}: {
+  partner: { name: string; src: string };
+  compact?: boolean;
+}) {
+  const [error, setError] = useState(false);
 
-  const [currentAngle, setCurrentAngle] = useState(0);
-
-  const [layout, setLayout] = useState({
-    cardW: 200,
-    cardH: 112,
-    radius: 380,
-    perspective: 1100,
-  });
-
-  useEffect(() => {
-    const compute = () => {
-      const w = window.innerWidth;
-
-      if (w < 480) {
-        setLayout({
-          cardW: 160,
-          cardH: 96,
-          radius: 245,
-          perspective: 760,
-        });
-        return;
-      }
-
-      if (w < 768) {
-        setLayout({
-          cardW: 175,
-          cardH: 100,
-          radius: 285,
-          perspective: 840,
-        });
-        return;
-      }
-
-      if (w < 1024) {
-        setLayout({
-          cardW: 190,
-          cardH: 108,
-          radius: 330,
-          perspective: 950,
-        });
-        return;
-      }
-
-      setLayout({
-        cardW: 200,
-        cardH: 112,
-        radius: 380,
-        perspective: 1100,
-      });
-    };
-
-    compute();
-    window.addEventListener("resize", compute);
-    return () => window.removeEventListener("resize", compute);
-  }, []);
-
-  useEffect(() => {
-    const speed = 0.22;
-
-    const animate = () => {
-      angleRef.current = (angleRef.current + speed) % 360;
-      setCurrentAngle(angleRef.current);
-      rafRef.current = requestAnimationFrame(animate);
-    };
-
-    rafRef.current = requestAnimationFrame(animate);
-
-    return () => cancelAnimationFrame(rafRef.current);
-  }, []);
-
-  const carouselHeight = useMemo(() => {
-    return layout.cardH + layout.radius * 2 * 0.5;
-  }, [layout.cardH, layout.radius]);
+  const initials = partner.name
+    .split(" ")
+    .map((word) => word[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative overflow-hidden bg-white py-16 sm:py-20 lg:py-28"
+    <div
+      className={`group flex items-center justify-center rounded-2xl border bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_45px_rgba(11,34,77,0.10)] ${
+        compact ? "h-[92px] w-[156px] px-4 py-4" : "h-[118px] px-6 py-5"
+      }`}
+      style={{
+        borderColor: "rgba(11,34,77,0.08)",
+        boxShadow: "0 8px 24px rgba(11,34,77,0.05)",
+      }}
     >
-      <div className="absolute left-0 top-0 h-px w-full bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
-      <div className="absolute -right-40 -top-40 h-80 w-80 rounded-full bg-primary/[0.03] blur-3xl" />
-      <div className="absolute -bottom-40 -left-40 h-80 w-80 rounded-full bg-secondary/[0.03] blur-3xl" />
+      {error ? (
+        <div className="flex flex-col items-center justify-center text-center">
+          <div
+            className="flex h-11 w-11 items-center justify-center rounded-full text-xs font-bold text-white"
+            style={{
+              fontFamily: "var(--font-grandview)",
+              backgroundColor: "#F55C15",
+            }}
+          >
+            {initials}
+          </div>
+
+          <span
+            className="mt-2 text-[11px] leading-tight"
+            style={{
+              fontFamily: "var(--font-grandview)",
+              color: "#0B224D",
+            }}
+          >
+            {partner.name}
+          </span>
+        </div>
+      ) : (
+        <Image
+          src={partner.src}
+          alt={`${partner.name} logo`}
+          width={150}
+          height={70}
+          onError={() => setError(true)}
+          className={`w-auto object-contain opacity-85 grayscale transition-all duration-300 group-hover:opacity-100 group-hover:grayscale-0 ${
+            compact ? "h-9 max-w-[108px]" : "h-10 max-w-[130px] sm:h-11 sm:max-w-[140px]"
+          }`}
+        />
+      )}
+    </div>
+  );
+}
+
+function MobileMarquee() {
+  const firstRow = partners.slice(0, 6);
+  const secondRow = partners.slice(6);
+
+  return (
+    <div className="md:hidden">
+      {[firstRow, secondRow].map((row, index) => (
+        <div key={index} className="mb-4 overflow-hidden last:mb-0">
+          <div
+            className="flex w-max gap-4"
+            style={{
+              animation: `${index % 2 === 0 ? "marquee-left" : "marquee-right"} 24s linear infinite`,
+            }}
+          >
+            {[...row, ...row].map((partner, i) => (
+              <LogoCard
+                key={`${partner.name}-${i}`}
+                partner={partner}
+                compact
+              />
+            ))}
+          </div>
+        </div>
+      ))}
+
+      <style jsx>{`
+        @keyframes marquee-left {
+          from {
+            transform: translateX(0);
+          }
+          to {
+            transform: translateX(-50%);
+          }
+        }
+
+        @keyframes marquee-right {
+          from {
+            transform: translateX(-50%);
+          }
+          to {
+            transform: translateX(0);
+          }
+        }
+      `}</style>
+    </div>
+  );
+}
+
+function DesktopGrid() {
+  return (
+    <div className="hidden md:grid md:grid-cols-2 md:gap-5 lg:grid-cols-3 xl:grid-cols-4">
+      {partners.map((partner) => (
+        <LogoCard key={partner.name} partner={partner} />
+      ))}
+    </div>
+  );
+}
+
+export default function Companies() {
+  return (
+    <section className="relative overflow-hidden bg-[#F8F5F0] py-20 sm:py-24">
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#F55C15]/30 to-transparent" />
+        <div className="absolute inset-0 opacity-[0.03]">
+          <div
+            className="h-full w-full"
+            style={{
+              backgroundImage:
+                "radial-gradient(circle, rgba(11,34,77,0.35) 1px, transparent 1px)",
+              backgroundSize: "28px 28px",
+            }}
+          />
+        </div>
+        <div className="absolute -left-20 bottom-0 h-56 w-56 rounded-full bg-[#0B224D]/5 blur-3xl" />
+        <div className="absolute -right-20 top-0 h-56 w-56 rounded-full bg-[#F55C15]/10 blur-3xl" />
+      </div>
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto mb-12 max-w-3xl text-center sm:mb-16 lg:mb-20">
-          <span className="inline-block rounded-full border border-primary/20 bg-primary/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-primary">
+        <div className="mx-auto mb-12 max-w-3xl text-center sm:mb-14">
+          <span
+            className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-[11px] uppercase tracking-[0.18em]"
+            style={{
+              fontFamily: "var(--font-grandview)",
+              background: "rgba(245,92,21,0.10)",
+              border: "1px solid rgba(245,92,21,0.22)",
+              color: "#F55C15",
+            }}
+          >
+            <span className="h-1.5 w-1.5 rounded-full bg-[#F55C15]" />
             Trusted Partners
           </span>
 
-          <h2 className="mt-4 text-2xl font-semibold text-secondary sm:text-3xl lg:text-4xl">
-            Companies that work with us
+          <h2
+            className="mt-5 text-3xl leading-tight sm:text-4xl lg:text-5xl"
+            style={{
+              fontFamily: "var(--font-grandview)",
+              color: "#0B224D",
+            }}
+          >
+            Organizations supporting
+            <span className="text-[#F55C15]"> Rapid Vets</span>
           </h2>
 
-          <p className="mt-4 text-base leading-7 text-secondary/60 sm:text-lg">
-            Here are some of our notable partners powering veterinary excellence
-            across the region.
+          <p
+            className="mx-auto mt-5 max-w-2xl text-base leading-7 sm:text-lg"
+            style={{
+              fontFamily: "var(--font-grandview)",
+              color: "#475569",
+            }}
+          >
+            We collaborate with insurance providers, agricultural platforms,
+            livestock partners, and financial institutions to expand access to
+            veterinary care, valuation services, and farmer support across Kenya.
           </p>
         </div>
 
-        <div
-          className="relative mx-auto flex items-center justify-center"
-          style={{
-            height: `${carouselHeight}px`,
-            perspective: `${layout.perspective}px`,
-          }}
-        >
-          <div
+        <div className="mb-10 flex flex-wrap justify-center gap-3 sm:mb-12">
+          {partnerCategories.map((category) => (
+            <span
+              key={category}
+              className="rounded-full px-4 py-2 text-[11px] uppercase tracking-[0.16em] sm:text-xs"
+              style={{
+                fontFamily: "var(--font-grandview)",
+                background: "rgba(11,34,77,0.05)",
+                border: "1px solid rgba(11,34,77,0.10)",
+                color: "#0B224D",
+              }}
+            >
+              {category}
+            </span>
+          ))}
+        </div>
+
+        <MobileMarquee />
+        <DesktopGrid />
+
+        <div className="mt-10 text-center sm:mt-12">
+          <p
+            className="text-xs uppercase tracking-[0.18em]"
             style={{
-              position: "relative",
-              width: `${layout.cardW}px`,
-              height: `${layout.cardH}px`,
-              transformStyle: "preserve-3d",
-              transform: `rotateY(${currentAngle}deg)`,
-              transition: "none",
+              fontFamily: "var(--font-grandview)",
+              color: "#64748B",
             }}
           >
-            {partners.map((partner, index) => {
-              const theta = (360 / COUNT) * index;
-
-              const cardStyle: React.CSSProperties = {
-                position: "absolute",
-                top: 0,
-                left: 0,
-                width: `${layout.cardW}px`,
-                height: `${layout.cardH}px`,
-                transform: `rotateY(${theta}deg) translateZ(${layout.radius}px)`,
-                backfaceVisibility: "hidden",
-                WebkitBackfaceVisibility: "hidden",
-              };
-
-              const normalizedAngle =
-                ((theta - currentAngle) % 360 + 360) % 360;
-
-              const facingFactor = Math.cos(
-                (normalizedAngle * Math.PI) / 180
-              );
-
-              const opacity = Math.max(0.28, (facingFactor + 1) / 2);
-              const scale = 0.84 + 0.18 * Math.max(0, facingFactor);
-              const blur = facingFactor < 0 ? 0.8 : 0;
-
-              return (
-                <div key={partner.name} style={cardStyle}>
-                  <div
-                    className="flex h-full w-full items-center justify-center rounded-2xl border border-tertiary/30 bg-white px-6 py-5 shadow-md transition-shadow duration-300 hover:shadow-xl sm:px-7 sm:py-5"
-                    style={{
-                      opacity,
-                      transform: `scale(${scale})`,
-                      filter: `blur(${blur}px)`,
-                      transition:
-                        "opacity 0.12s ease, transform 0.12s ease, filter 0.12s ease",
-                    }}
-                  >
-                    <Image
-                      src={partner.src}
-                      alt={`${partner.name} logo`}
-                      width={150}
-                      height={64}
-                      className="h-10 w-auto max-w-[120px] object-contain sm:h-11 sm:max-w-[130px] lg:h-12 lg:max-w-[140px]"
-                      priority={index < 4}
-                    />
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+            Supporting veterinary access across Kenya
+          </p>
         </div>
       </div>
     </section>
